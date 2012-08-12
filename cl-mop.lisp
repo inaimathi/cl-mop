@@ -35,7 +35,9 @@ Returns the sequence resulting from calling the function on each bound (slot-nam
 ;;;;; deep
 (defgeneric deep-copy (object)
   (:documentation "Does a general deep-copy on the given object and sub-pieces.
-Returns atoms, numbers and chars. Runs copy-tree on lists, and copy-seq on other sequences."))
+Returns atoms, numbers and chars. 
+Runs copy-tree on lists, and copy-seq on other sequences.
+Runs copy-structure on pathnames, hash tables and other structure-objects"))
 
 (defmethod deep-copy (object)
   "The default unspecialized case should only catch atoms, numbers and characters.
@@ -59,5 +61,5 @@ It merely returns its results."
   (copy-tree object))
 
 (defmethod deep-copy ((object structure-object))
-  "A deep copy of a structure-object is (copy-structure object). This applies to things like pathnames and hash tables."
+  "A deep copy of a structure-object is (copy-structure object)."
   (copy-structure object))

@@ -3,6 +3,10 @@
 
 The goal of this library is to provide portable Common Lisp facilities for working with CLOS instances. This first release is minimal because I'm following my usual MO of only implementing things as I need them. There is therefore no call for me to go beyond `slot-names`, `map-slots`, `shallow-copy` and `deep-copy` yet (and I've used `deep-copy` in exactly one place so far, so be wary of that one; the others have been at least slightly battle-tested).
 
+### Supports
+
+In theory, it supports CMUCL, Lispworks, SBCL, Allegro CL, GNU Clisp and OpenMCL with native threads. Really, I've only deployed it with SBCL and did some cursory testing with GNU Clisp. If someone tries it out extensively elsewhere, let me know. As always, patches welcome for CLs not on that list.
+
 ### Exports
 
 All of the exported symbols designate **methods** and **not functions**. While I've found the defaults published here to be useful and adequate, there are a *lot* of crazy things you can do with CLOS that I don't even try to account for. If you have special cases on hand, you can easily define your own methods for those and carry on as normal where `cl-mop` is sufficient.
