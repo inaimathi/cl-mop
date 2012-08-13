@@ -15,8 +15,8 @@ Returns the sequence resulting from calling the function on each bound (slot-nam
 
 (defmethod map-slots ((fn function) (instance standard-object))
   "The default case of map-slots specializes on STANDARD-OBJECT."
-  (loop for slot in (class-slots (class-of instance)) 
-	for slot-name =  (slot-definition-name slot)
+  (loop for slot in (class-slots (class-of instance))
+	for slot-name = (slot-definition-name slot)
 	when (slot-boundp instance slot-name)
 	  collect (funcall fn slot-name (slot-value instance slot-name))))
 
