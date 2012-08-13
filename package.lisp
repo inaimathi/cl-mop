@@ -11,5 +11,6 @@
    #+clisp #:clos 
    #:class-slots #:slot-definition-name)
   (:export #:slot-names #:map-slots 
-	   #:shallow-copy #:deep-copy))
+	   #:shallow-copy #:deep-copy
+	   #:class-slots #:slot-definition-name))
 

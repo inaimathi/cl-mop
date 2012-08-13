@@ -11,6 +11,8 @@ In theory, it supports CMUCL, Lispworks, SBCL, Allegro CL, GNU Clisp and OpenMCL
 
 All of the exported symbols designate **methods** and **not functions**. While I've found the defaults published here to be useful and adequate, there are a *lot* of crazy things you can do with CLOS that I don't even try to account for. If you have special cases on hand, you can easily define your own methods for those and carry on as normal where `cl-mop` is sufficient.
 
+In addition to these symbols, `cl-mop` also re-exports `class-slots` and `slot-definition-name`. These functions are imported in a portable fashion which accounts for the different providing packages accross different CL implementations.
+
 ##### slot-names
 
 Designates two methods; one acting on classes and one acting on instances. In both cases, it returns a list of symbols designating the slot-names of the argument.
