@@ -10,7 +10,8 @@
    #+allegro #:mop 
    #+clisp #:clos 
    #:class-slots #:slot-definition-name)
-  (:export #:slot-names #:map-slots 
+  (:export #:slot-names #:map-slots
+	   #:to-alist
 	   #:shallow-copy #:deep-copy
 	   #:class-slots #:slot-definition-name))
 

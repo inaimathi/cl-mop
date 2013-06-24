@@ -20,6 +20,11 @@ Returns the sequence resulting from calling the function on each bound (slot-nam
 	when (slot-boundp instance slot-name)
 	  collect (funcall fn slot-name (slot-value instance slot-name))))
 
+(defmethod to-alist ((instance standard-object))
+  "Returns an assoc list of (k . v) pairs from the given instances' slots and slot-values.
+This is meant to provide an easy way of showing "
+  (map-slots (lambda (k v) (cons k v)) instance))
+
 ;;;;;;;;;;;;;;; copying functions
 ;;;;; shallow
 (defgeneric shallow-copy (object)

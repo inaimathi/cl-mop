@@ -21,6 +21,10 @@ Designates two methods; one acting on classes and one acting on instances. In bo
 
 Takes a function and an instance, and returns the sequence resulting from running the function on (slot-name slot-value) over each **bound** slot in an instance. It silently ignores unbound slots, you won't even get a `NIL` in the resulting list.
 
+##### to-alist
+
+Takes an instance and returns the alist of `((slot-name . value) ...)` for all bound slots. The trivial application of `map-slots`, included because I found myself using it quite often.
+
 ##### shallow-copy
 
 Takes a CLOS instance and returns a shallow copy of it. I've found this useful in a bunch of places where I really want a copy of an existing instance with one or two slots changed (but don't want to destructively modify the underlying instance).
