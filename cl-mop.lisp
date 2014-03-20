@@ -3,6 +3,9 @@
 (in-package #:cl-mop)
 
 ;;;;;;;;;;;;;;; basic operations
+(defmethod slot-names ((object error))
+  (slot-names (class-of object)))
+
 (defmethod slot-names ((object standard-object))
   (slot-names (class-of object)))
 
@@ -13,12 +16,21 @@
   (:documentation "Takes a binary function and an instance.
 Returns the sequence resulting from calling the function on each bound (slot-name slot-value) of instance"))
 
+(defmethod map-slots ((fn function) (instance error))
+  (loop for slot in (class-slots (class-of instance))
+     for slot-name = (slot-definition-name slot)
+     when (slot-boundp instance slot-name)
+     collect (funcall fn slot-name (slot-value instance slot-name))))
+
 (defmethod map-slots ((fn function) (instance standard-object))
   "The default case of map-slots specializes on STANDARD-OBJECT."
   (loop for slot in (class-slots (class-of instance))
 	for slot-name = (slot-definition-name slot)
 	when (slot-boundp instance slot-name)
 	  collect (funcall fn slot-name (slot-value instance slot-name))))
+
+(defmethod to-alist ((instance error))
+  (map-slots (lambda (k v) (cons k v)) instance))
 
 (defmethod to-alist ((instance standard-object))
   "Returns an assoc list of (k . v) pairs from the given instances' slots and slot-values.
