@@ -37,6 +37,24 @@ Returns the sequence resulting from calling the function on each bound (slot-nam
 This is meant to provide an easy way of showing "
   (map-slots (lambda (k v) (cons k v)) instance))
 
+;;;;;;;;;;;;;;; method/generic introspection
+(defun methods-of (generic-fn)
+  (generic-function-methods generic-fn))
+
+(defmethod specializers-of ((g standard-generic-function))
+  (mapcar #'method-specializers (methods-of g)))
+(defmethod specializers-of ((m standard-method))
+  (method-specializers m))
+
+(defmethod specializer-object (s) s)
+(defmethod specializer-object ((s eql-specializer))
+  (eql-specializer-object s))
+
+(defmethod specializer-objects-of ((g standard-generic-function))
+  (mapcar #'specializer-objects-of (methods-of g)))
+(defmethod specializer-objects-of ((m standard-method))
+  (mapcar #'specializer-object (specializers-of m)))
+
 ;;;;;;;;;;;;;;; copying functions
 ;;;;; shallow
 (defgeneric shallow-copy (object)
@@ -45,7 +63,7 @@ This is meant to provide an easy way of showing "
 (defmethod shallow-copy ((object standard-object))
   "The default shallow copy specializes on STANDARD-OBJECT. It takes an object and returns a shallow copy."
   (let ((copy (allocate-instance (class-of object))))
-    (map-slots 
+    (map-slots
      (lambda (k v) (setf (slot-value copy k) v))
      object)
     copy))
@@ -53,7 +71,7 @@ This is meant to provide an easy way of showing "
 ;;;;; deep
 (defgeneric deep-copy (object)
   (:documentation "Does a general deep-copy on the given object and sub-pieces.
-Returns atoms, numbers and chars. 
+Returns atoms, numbers and chars.
 Runs copy-tree on lists, and copy-seq on other sequences.
 Runs copy-structure on pathnames, hash tables and other structure-objects"))
 
@@ -65,8 +83,8 @@ It merely returns its results."
 (defmethod deep-copy ((object standard-object))
   "The default deep copy specializes on STANDARD-OBJECT. It takes an object and returns a deep copy."
   (let ((copy (allocate-instance (class-of object))))
-    (map-slots 
-     (lambda (k v) (setf (slot-value copy k) (deep-copy v))) 
+    (map-slots
+     (lambda (k v) (setf (slot-value copy k) (deep-copy v)))
      object)
     copy))
 
